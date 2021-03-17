@@ -1,4 +1,4 @@
-from tcp import TCP
+from TCPClient import TCP
 import time
 from threading import Thread
 

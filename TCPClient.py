@@ -27,8 +27,8 @@ class TCP():
     def receive(self):
         self.connect()
         while self.running:
-            data = self.sock.recv(16)
-            if len(data) > 15:
+            data = self.sock.recv(1024)
+            if len(data) > 0:
                 print('received <= ',data.decode('utf-8'))
             if self.running == False:
                 break
