@@ -4,7 +4,6 @@ import sys
 from threading import Thread
 
 class TCP():
-   
     def __init__(self): 
         self.running = True
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -20,7 +19,7 @@ class TCP():
         print('sending =>',message)
         self.sock.sendall(msg)
 
-    def disconnect(self):
+    def stop(self):
         print("disconnect")
         self.running = False
         self.sock.close()
