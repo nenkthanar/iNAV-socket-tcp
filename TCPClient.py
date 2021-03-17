@@ -3,7 +3,7 @@ import signal
 import sys
 from threading import Thread
 
-class TCP():
+class TCPClient():
     def __init__(self): 
         self.running = True
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
