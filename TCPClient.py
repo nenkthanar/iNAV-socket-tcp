@@ -9,6 +9,7 @@ class TCP():
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.address = ('0.0.0.0',5000)
         self.th = Thread(target=self.receive)
+        self.rcvmsg = ""
 
     def connect(self):
         self.sock.connect(self.address)
@@ -29,7 +30,7 @@ class TCP():
         while self.running:
             data = self.sock.recv(1024)
             if len(data) > 0:
-                print('received <= ',data.decode('utf-8'))
+                self.rcvmsg = data.decode('utf-8')
             if self.running == False:
                 break
 
