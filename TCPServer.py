@@ -1,21 +1,34 @@
 import socket
+import sys
 
-HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-PORT = 5000        # Port to listen on (non-privileged ports are > 1023)
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# Bind the socket to the port
+server_address = ('localhost', 5000)
+print(sys.stderr, 'starting up on %s port %s' % server_address)
+sock.bind(server_address)
+sock.listen(1)
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.bind((HOST, PORT))
-    s.listen()
-    conn, addr = s.accept()
-    while True:
-        if conn:
-               print('Connected by', addr)
-               
+while True:
+    # Wait for a connection
+    print('waiting for a connection')
+    connection, client_address = sock.accept()
+    try:
+        print('connection from', client_address)
+
+        # Receive the data in small chunks and retransmit it
         while True:
-            try:
-                data = conn.recv(1024)
-                if len(data) > 0:
-                    conn.sendall(data)
-                    print(data)
-            except  Exception as e:
-                pass
+            data = connection.recv(16)
+            print('received "%s"' % data)
+            if data:
+                print('sending data back to the client')
+                connection.sendall(data)
+            else:
+                print('no more data from', client_address)
+                break
+            
+    except Exception as e:
+        # Clean up the connection
+        pass
+    
+connection.close()
